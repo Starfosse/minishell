@@ -13,7 +13,11 @@
 # include <sys/wait.h>
 # include "libft/libft.h"
 
-# define BUFFER_SIZE 1
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
 # define PATH_MAX 2048
 
 typedef struct		s_env
@@ -30,6 +34,7 @@ typedef struct s_cmd
 	void	*content;
 	char	**full_cmd;
 	char	**env;
+	char	*str;
 	int	infile;
 	int	outfile;
 	int in;
@@ -118,5 +123,7 @@ char    *check_new_buffer(char *new_buffer, int count);
 int 	next_single_quote(char *buffer, int i);
 int 	next_quotes(char *buffer, int i);
 int 	is_meta(char c);
+void	create_fd(char *str);
+void    handler(int status);
 
 #endif

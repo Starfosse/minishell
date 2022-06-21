@@ -29,6 +29,26 @@ char	**sort_ascii(char **envp)
 	return (tab);
 }
 
+
+int check_var(char *var)
+{
+	int	count;
+
+	count = 0;
+	while(var[count] != '=' && var[count])
+	{
+		if(!isalpha(var[count]))
+		{
+			ft_putstr("minishell: export: '");
+			ft_putstr(var);
+			ft_putstr("': not a valid identifier");
+			return (0);
+		}
+		count++;
+	}
+	return (1);
+}
+
 int check_export(char *var, t_env **env)
 {
 	t_env	*envi;
@@ -44,16 +64,10 @@ int check_export(char *var, t_env **env)
 	{
 		if(!ft_strncmp(var, envi->var, count))
 		{
-			//printf("enviiiii->var == %s\n", envi->var);
-			//free(envi->var);
-			//printf("enviiiii->var == %s\n", envi->var);
 			envi->var = (char *) malloc (sizeof(char) * ft_strlen(var) + 1);
-			//printf("enviiiii->var == %s\n", envi->var);
 			ft_strcpy(envi->var, var);
-			//printf("enviiiii->var == %s\n", envi->var);
 			return(1);
 		}
-		//printf("envi->var == %s\n", envi->var);
 		envi = envi->next;
 	}
 	return(0);
@@ -126,6 +140,7 @@ int	built_in_export(char **built_in, t_env **env)
 		tab = sort_ascii(envi);
 		while (tab[++i])
 		{
+			ft_putstr("declare -x ");
 			ft_putstr(tab[i]);
 			ft_putstr("\n");
 		}
@@ -133,7 +148,9 @@ int	built_in_export(char **built_in, t_env **env)
 	}
 	else
 	{
-		if(!check_export(built_in[1], env))
+		if(!check_var(built_in[1]))
+			return (EXIT_FAILURE);
+		else if(!check_export(built_in[1], env))
 			add_var_env2(built_in[1], env);
 	}
 	return (EXIT_SUCCESS);

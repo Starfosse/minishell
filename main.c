@@ -14,10 +14,10 @@ int	main(int ac, char **av, char **envp)
 		printf("tmp->var == %s\n", tmp->var);
 		tmp = tmp->next;
 	}*/
-	/*struct sigaction sa;
-    //sa.sa_handler = &handler;
-    //sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);*/
+	struct sigaction sa;
+    sa.sa_handler = &handler;
+    sa.sa_flags = SA_RESTART;
+    sigaction(SIGINT, &sa, NULL);
 	prompt(&env);
 	return(0);
 }

@@ -11,6 +11,31 @@ int	fork_store(pid_t *pid_res)
 	return (0);
 }
 
+void	create_fd(char *str)
+{
+	int total = 0;
+	char *buffer;
+	buffer = NULL;
+	char *test;
+	char *test1;
+	test = NULL;
+	test = get_next_line(0);
+	test1 = strndup(test, ft_strlen(test) - 1);
+	while(strcmp(str, test1) != 0)
+	{
+		total = strcmp(str, test1);
+		printf("total == %d\n", total);
+		printf("str == [%s] et test == [%s]\n", str, test1);
+		buffer = ft_strjoin1(buffer, test);
+		printf("buffer == %s", buffer);
+		free(test);
+		test = get_next_line(0);
+		test1 = strndup(test, ft_strlen(test) - 1);
+	}
+	printf("dépassé\n");
+	return ;
+}
+
 int	ft_son(t_cmd *cmd, t_pipex pipex, t_env **env)
 {
 	t_cmd *tmp;
@@ -26,10 +51,18 @@ int	ft_son(t_cmd *cmd, t_pipex pipex, t_env **env)
 		if (pipex.i == 0)
 			select_files(cmd, pipex);
 		else if (pipex.i == pipex.cmd_nbr - 1)
+		{
+			//printf("tmp->str == %s\n", tmp->str);
 			select_files2(cmd, pipex);
+		}
 		else
 			select_files3(cmd, pipex);
 		close_pipes(&pipex);
+		/*if(tmp->in == 2)
+		{
+			printf("tmp->str == %s\n", tmp->str);
+			create_fd(tmp->str);
+		}*/
 		if (is_built_in(tmp->full_cmd[0]))
 		{
 			exec_built_in(tmp->full_cmd, env);
@@ -37,13 +70,20 @@ int	ft_son(t_cmd *cmd, t_pipex pipex, t_env **env)
 		}
 		else
 		{
+			printf("tmp->str");
 			envi = lst_to_array(env);
+			printf("tmp->str");
 			get_absolute_path(tmp->full_cmd, envi);
+			printf("tmp->str");
 			execve(tmp->full_cmd[0], tmp->full_cmd, envi);
+			printf("tmp->str");
 			exit(EXIT_SUCCESS);
 		}
 		exit(EXIT_FAILURE);
+		//printf("pid == %d\n", pid);
 	}
+	//printf("test\n");
+	//printf("pid == %d\n", pid);
 	return (pid);
 }
 
@@ -106,7 +146,7 @@ int	wait_all_pid(t_pstat *pipe_status, int size)
 			else if (WIFCONTINUED(status))
 				pipe_status[i].status = 128 + WIFCONTINUED(status);
 		}
-		printf("pipe_status[%d].status == %d\n", i, pipe_status[i].status);
+		//printf("pipe_status[%d].status == %d\n", i, pipe_status[i].status);
 		++i;
 	}
 	return (1);
@@ -144,6 +184,7 @@ void	multiple_cmd(char *buffer, t_env **env)
 	while (++(pipex.i) < pipex.cmd_nbr)
 	{
 		pipe_status[pipex.i].pid = ft_son(test2, pipex, env);
+		//printf("pipe_status[pipex.i].pid == %d\n", pipe_status[pipex.i].pid);
 		pipex.pipe_first += 2;
 		pipex.pipe_second += 2;
 		test2 = test2->next;

@@ -59,6 +59,7 @@ void	insert_infile(t_cmd *cmd, int *count, int *i, int choice, int j)
 	else
 	{
 		tmp->in = 2;
+		tmp->str = strdup(tmp->full_cmd[j + 1]);
 		(*count)++;
 		(*i) += 2; 
 	}

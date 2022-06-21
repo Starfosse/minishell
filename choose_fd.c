@@ -10,9 +10,9 @@ void	select_files(t_cmd *cmd, t_pipex pipex)
 {
 	t_cmd *tmp;
 	tmp = cmd;
-	if(tmp->in  == 1 && tmp->out)
+	if(tmp->in && tmp->out)
 		choose_files(tmp->infile, tmp->outfile);
-	else if(tmp->in == 1)
+	else if(tmp->in)
 		choose_files(tmp->infile, pipex.pipe[1]);
 	else if(tmp->out)
 		choose_files(0, tmp->outfile);
@@ -24,9 +24,9 @@ void	select_files2(t_cmd *cmd, t_pipex pipex)
 {
 	t_cmd *tmp;
 	tmp = cmd;
-	if(tmp->in  == 1 && tmp->out)
+	if(tmp->in&& tmp->out)
 		choose_files(tmp->infile, tmp->outfile);
-	else if(tmp->in == 1)
+	else if(tmp->in)
 		choose_files(tmp->infile, 1);
 	else if(tmp->out)
 		choose_files(pipex.pipe[pipex.pipe_first], tmp->outfile);
@@ -40,9 +40,9 @@ void	select_files3(t_cmd *cmd, t_pipex pipex)
 	tmp = cmd;
 	/*if(tmp->in == 2)
 		tmp*/
-	if(tmp->in == 1 && tmp->out)
+	if(tmp->in&& tmp->out)
 		choose_files(tmp->infile, tmp->outfile);
-	else if(tmp->in == 1)
+	else if(tmp->in)
 		choose_files(tmp->infile, pipex.pipe[pipex.pipe_second]);
 	else if(tmp->out)
 		choose_files(pipex.pipe[pipex.pipe_first], tmp->outfile);
