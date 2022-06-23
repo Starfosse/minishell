@@ -113,7 +113,7 @@ void    create_list(char *buffer, t_pipex *pipex)
 void    check_list(t_cmd **cmd, t_env **env)
 {
     t_cmd *test1;
-
+	
 	test1 = *cmd;
 	while(test1 != NULL)
 	{
@@ -176,8 +176,8 @@ void	multiple_cmd(char *buffer, t_env **env)
 
 	pipex.cmd = NULL;
     create_list(buffer, &pipex);
-    check_list(&pipex.cmd, env);
 	ft_init(&pipex);
+    check_list(&pipex.cmd, env);
 	pipe_status = create_pipes_status(pipex.cmd_nbr);
 	t_cmd *test2;
 	test2 = pipex.cmd;

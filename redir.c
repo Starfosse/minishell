@@ -44,6 +44,29 @@ void	insert_outfile(t_cmd *cmd, int *count, int *i, int choice, int j)
 	}
 }
 
+int read_stdin(char *str)
+{
+    char *test;
+    char    *buffer;
+    buffer = NULL;
+	test = NULL;
+	test = get_next_line(0);
+    while(strncmp(str, test, (strlen(test) - 1))) // not good
+	{
+        buffer = ft_strjoin1(buffer, test);
+		test = get_next_line(0);
+	}
+    int *p;
+    p = (int *)malloc(sizeof(int) * 2);
+    if (pipe(p) == -1) {
+        fprintf(stderr, "erreur ouverture pipe\n");
+        exit(1);
+    }
+    ft_putstr_fd(buffer, p[1]);
+    close(p[1]);
+    return(p[0]);
+}
+
 void	insert_infile(t_cmd *cmd, int *count, int *i, int choice, int j)
 {
 	t_cmd *tmp;
@@ -58,8 +81,9 @@ void	insert_infile(t_cmd *cmd, int *count, int *i, int choice, int j)
 	}
 	else
 	{
+		tmp->infile = read_stdin(tmp->full_cmd[j + 1]);
 		tmp->in = 2;
-		tmp->str = strdup(tmp->full_cmd[j + 1]);
+		//tmp->str = strdup(tmp->full_cmd[j + 1]);
 		(*count)++;
 		(*i) += 2; 
 	}

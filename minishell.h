@@ -34,7 +34,6 @@ typedef struct s_cmd
 	void	*content;
 	char	**full_cmd;
 	char	**env;
-	char	*str;
 	int	infile;
 	int	outfile;
 	int in;
