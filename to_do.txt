@@ -1,0 +1,23 @@
+<main.c cat 		-> marche
+cat<main.c 		-> marche
+<main.c cat > teste 	-> marche
+echo$NAME		-> la commande ne fonctionne pas, mais NAME s'afiche
+
+<main.cccat 		-> marche pas
+<cat main.c 		-> marche pas
+cat main.c < texxte >	-> marche (syntax error near unexpted token 'newline';
+
+
+ls < main.c -l		-> marche avec l'arg
+ls a -l			-> ne marche pas
+ls $LESS -l		-> marche env
+cat $PATH		-> marche
+
+F_OK = fichier existe;
+R_OK = lecture;
+W_OK = écriture;
+X_OK = fichier executable;
+
+
+
+34.5

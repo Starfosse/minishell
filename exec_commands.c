@@ -26,7 +26,7 @@ void	exec_cmd(char **cmd, char **env)
 	}
 }
 
-static void	free_array(char **array)
+void	free_array(char **array)
 {
 	int	i;
 

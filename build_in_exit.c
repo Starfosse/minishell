@@ -2,6 +2,7 @@
 
 int	built_in_exit(void)
 {
-	//exit(0);
+	printf("exit\n");
+	exit(0);
 	return (EXIT_SUCCESS);
 }

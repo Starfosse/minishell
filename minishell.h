@@ -34,10 +34,11 @@ typedef struct s_cmd
 	void	*content;
 	char	**full_cmd;
 	char	**env;
-	int	infile;
-	int	outfile;
-	int in;
-	int out;
+	int		infile;
+	int		outfile;
+	int 	in;
+	int 	out;
+	char	**type;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -123,6 +124,11 @@ int 	next_single_quote(char *buffer, int i);
 int 	next_quotes(char *buffer, int i);
 int 	is_meta(char c);
 void	create_fd(char *str);
-void    handler(int status);
+void    sigint_handler(int status);
+char	**custom_split(char *argv);
+void	name_redir(t_cmd *cmd, t_env **env);
+int	check_syntax(t_cmd *cmd);
+void	free_array(char **array);
+char	*get_path(char **env);
 
 #endif

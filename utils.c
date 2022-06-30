@@ -18,34 +18,39 @@ int	ft_strlen2(char *str)
 
 void	change_str(char *cmd, char *env)
 {
+	printf("cmd avant == %s\n", cmd);
 	int size = ft_strlen(env);
-	//free(cmd);
+	free(cmd);
 	cmd = (char *) malloc (sizeof(char) * size + 1);
 	ft_strcpy(cmd, env);
+	printf("cmd aaprès1 == %s\n", cmd);
 }
 
 void	is_dollar(char **cmd, t_env **env)
 {
 	char **envi;
-	int	i = 0;
-	int j = 0;
+	int	i;
+	int j;
+
 	envi = lst_to_array(env);
-	while(cmd[j])
+	j = -1;
+	while(cmd[++j])
 	{
-		i = 0;
+		i = -1;
 		if(cmd[j][0] == '$')
 		{
-			while(envi[i])
+			while(envi[++i])
 			{
 				if(!ft_strncmp(envi[i], cmd[j] + 1, ft_strlen2(cmd[j])))
 				{
-					change_str(cmd[j], envi[i]);
+					free(cmd[j]);
+					cmd[j] = (char *) malloc (sizeof(char) * (ft_strlen(envi[i]) + 1));
+					ft_strcpy(cmd[j], envi[i]);
+					printf("cmd[j] == %s\n", cmd[j]);
 					break;
 				}
-				i++;
 			}
 		}
-		j++;
 	}
 }
 

@@ -40,8 +40,15 @@ void	single_cmd(char *buffer, t_env **env)
 	pipex.cmd = NULL;
 	pipex.cmd = ft_lstnew2((void *) buffer);
 	test1 = pipex.cmd;
-	test1->full_cmd = ft_split((char *)test1->content, ' ');
+	test1->full_cmd = custom_split(test1->content);
+	name_redir(test1, env);
+	printf("salut1\n");
+	/*if(!check_syntax(test1))
+		return;*/
+	printf("salut2\n");
 	check_redir(test1);
+	printf("salut3\n");
 	is_dollar(test1->full_cmd, env);
+	printf("salut4\n");
 	run_cmd(test1, pipex, env);
 }

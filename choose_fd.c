@@ -60,8 +60,7 @@ void	select_files4(t_cmd *cmd)
 	}
 	else if(tmp->in)
 	{
-		if(tmp->in == 1)
-			choose_files(tmp->infile, 1);
+		choose_files(tmp->infile, 1);
 	}
 	else if(tmp->out)
 	{

@@ -11,31 +11,6 @@ int	fork_store(pid_t *pid_res)
 	return (0);
 }
 
-void	create_fd(char *str)
-{
-	int total = 0;
-	char *buffer;
-	buffer = NULL;
-	char *test;
-	char *test1;
-	test = NULL;
-	test = get_next_line(0);
-	test1 = strndup(test, ft_strlen(test) - 1);
-	while(strcmp(str, test1) != 0)
-	{
-		total = strcmp(str, test1);
-		printf("total == %d\n", total);
-		printf("str == [%s] et test == [%s]\n", str, test1);
-		buffer = ft_strjoin1(buffer, test);
-		printf("buffer == %s", buffer);
-		free(test);
-		test = get_next_line(0);
-		test1 = strndup(test, ft_strlen(test) - 1);
-	}
-	printf("dépassé\n");
-	return ;
-}
-
 int	ft_son(t_cmd *cmd, t_pipex pipex, t_env **env)
 {
 	t_cmd *tmp;
@@ -58,11 +33,6 @@ int	ft_son(t_cmd *cmd, t_pipex pipex, t_env **env)
 		else
 			select_files3(cmd, pipex);
 		close_pipes(&pipex);
-		/*if(tmp->in == 2)
-		{
-			printf("tmp->str == %s\n", tmp->str);
-			create_fd(tmp->str);
-		}*/
 		if (is_built_in(tmp->full_cmd[0]))
 		{
 			exec_built_in(tmp->full_cmd, env);
@@ -70,20 +40,13 @@ int	ft_son(t_cmd *cmd, t_pipex pipex, t_env **env)
 		}
 		else
 		{
-			printf("tmp->str");
 			envi = lst_to_array(env);
-			printf("tmp->str");
 			get_absolute_path(tmp->full_cmd, envi);
-			printf("tmp->str");
 			execve(tmp->full_cmd[0], tmp->full_cmd, envi);
-			printf("tmp->str");
 			exit(EXIT_SUCCESS);
 		}
 		exit(EXIT_FAILURE);
-		//printf("pid == %d\n", pid);
 	}
-	//printf("test\n");
-	//printf("pid == %d\n", pid);
 	return (pid);
 }
 
@@ -110,18 +73,23 @@ void    create_list(char *buffer, t_pipex *pipex)
 	}
 }
 
-void    check_list(t_cmd **cmd, t_env **env)
+int    check_list(t_cmd **cmd, t_env **env)
 {
     t_cmd *test1;
 	
 	test1 = *cmd;
 	while(test1 != NULL)
 	{
-		test1->full_cmd = ft_split((char *)test1->content, ' ');
+		test1->full_cmd = custom_split(test1->content);
+		//name_redir(test1, env);
+		/*if(!check_syntax(test1))
+			return(0);*/
 		check_redir(test1);
+		printf("test1=>in == %d\n", test1->in);
 		is_dollar(test1->full_cmd, env);
 		test1 = test1->next;
 	}
+	return(1);
 }
 
 int	wait_all_pid(t_pstat *pipe_status, int size)
@@ -146,7 +114,7 @@ int	wait_all_pid(t_pstat *pipe_status, int size)
 			else if (WIFCONTINUED(status))
 				pipe_status[i].status = 128 + WIFCONTINUED(status);
 		}
-		//printf("pipe_status[%d].status == %d\n", i, pipe_status[i].status);
+		printf("pipe_status[%d].status == %d\n", i, pipe_status[i].status);
 		++i;
 	}
 	return (1);
@@ -177,12 +145,14 @@ void	multiple_cmd(char *buffer, t_env **env)
 	pipex.cmd = NULL;
     create_list(buffer, &pipex);
 	ft_init(&pipex);
-    check_list(&pipex.cmd, env);
+    if(!check_list(&pipex.cmd, env))
+		return ;
 	pipe_status = create_pipes_status(pipex.cmd_nbr);
 	t_cmd *test2;
 	test2 = pipex.cmd;
 	while (++(pipex.i) < pipex.cmd_nbr)
 	{
+		printf("test2=>in == %d\n", test2->in);
 		pipe_status[pipex.i].pid = ft_son(test2, pipex, env);
 		//printf("pipe_status[pipex.i].pid == %d\n", pipe_status[pipex.i].pid);
 		pipex.pipe_first += 2;
