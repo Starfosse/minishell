@@ -15,7 +15,7 @@ void	remove_some_tabs(char **cmd, int count)
 			cmd[i] = ft_strdup(cmd[i + 2]);
 			i++;
 		}
-		cmd[i - 1] = '\0';
+		cmd[i] = '\0';
 		free(cmd[i]);
 		free(cmd[i + 1]);
 		count--;
@@ -50,7 +50,6 @@ int read_stdin(char *str)
     char  *buffer;
 	int *p;
 
-	printf("salut\n");
 	p = (int *)malloc(sizeof(int) * 2);
 	pipe(p);
     buffer = NULL;
@@ -121,16 +120,7 @@ void	check_redir(t_cmd *cmd)
 	count = 0;
 	tmp->out = 0;
 	tmp->in = 0;
-	printf("tmp->full_cmd[0] == %s\n", tmp->full_cmd[0]);
-	printf("tmp->full_cmd[1] == %s\n", tmp->full_cmd[1]);
-	printf("tmp->full_cmd[2] == %s\n", tmp->full_cmd[2]);
 	check_str(cmd, i, j, &count);
-	printf("tmp->full_cmd[0] == %s\n", tmp->full_cmd[0]);
-	printf("tmp->full_cmd[1] == %s\n", tmp->full_cmd[1]);
-	printf("tmp->full_cmd[2] == %s\n", tmp->full_cmd[2]);
 	remove_some_tabs(tmp->full_cmd, count);
-	printf("tmp->full_cmd[0] == %s\n", tmp->full_cmd[0]);
-	printf("tmp->full_cmd[1] == %s\n", tmp->full_cmd[1]);
-	printf("tmp->full_cmd[2] == %s\n", tmp->full_cmd[2]);
 	return;
 }

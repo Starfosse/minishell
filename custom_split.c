@@ -120,7 +120,6 @@ char	**custom_split(char *argv)
 
 	x = 0;
 	count = count_str(argv);
-    printf("count == %d\n", count);
 	split = (char**) malloc (sizeof(char *) * (count + 1));
 	i = 0;
 	while(argv[x])
@@ -128,6 +127,8 @@ char	**custom_split(char *argv)
 		j = 0;
 		while(argv[x] == ' ' && argv[x])
 			x++;
+		if(!argv[x])
+			break;
 		count = count_words2(argv, x);
 		split[i] = (char *) malloc (sizeof(char) * (count + 1));
 		while(j < count)
@@ -136,6 +137,5 @@ char	**custom_split(char *argv)
         i++;
 	}
 	split[i] = '\0';
-    printf("i == %d\n", i);
 	return (split);
 }

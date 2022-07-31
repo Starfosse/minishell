@@ -116,7 +116,6 @@ void	ft_putchar_fd(char c, int fd)
 void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
-    printf("s == %s\n", s);
 	if (!s)
 		return ;
 	i = 0;
@@ -704,19 +703,24 @@ void	check_syntax(t_cmd *cmd)
 	}
 }
 
+void	m(t_pipex *pipex)
+{
+	pipex->i = 7;
+}
+
 int main(int argc, char **argv, char **env)
 {    
 	if (!argc && !argv && !env)
 		return(0);
-	char	*line;
-	line = readline("\e[0;35mMini\e[0;33mshell $>\e[0;37m ");
-	/*t_pipex pipex;
-    t_cmd *test1;
+	t_pipex pipex;
+	m(&pipex);
+	printf("pipex.i == %d\n", pipex.i);
+    /*t_cmd *test1;
 	pipex.cmd = NULL;
 	pipex.cmd = ft_lstnew2((void *) argv[1]);
 	test1 = pipex.cmd;
-	test1->full_cmd = custom_split((char *)test1->content);
-	int i = 0;*/
+	test1->full_cmd = custom_split((char *)test1->content);*/
+	//int i = 0;
 	//remove_some_tabs(test1->full_cmd, 2);
 	//name_redir(test1, env);
 	//check_syntax(test1);

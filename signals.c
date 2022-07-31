@@ -2,8 +2,6 @@
 
 void    sigint_handler(int status) 
 {
-    printf("?-?\n");
-    printf("status == %d\n", status);
     if (status == SIGQUIT)
     {
 		printf("ne fait rien\n");
@@ -11,7 +9,6 @@ void    sigint_handler(int status)
     }
     else if (status == SIGINT)
     {
-        printf("gg\n");
         printf("\n"); // Move to a new line
         g_status = 130;
         rl_on_new_line(); // Regenerate the prompt on a newline

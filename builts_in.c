@@ -19,7 +19,7 @@ int	is_built_in(char *cmd)
 	return (0);
 }
 
-int	exec_built_in(char **built_in, t_env **env)
+int	exec_built_in(char **built_in, t_env **env, t_pipex *pipex)
 {
 	if (!strcmp(built_in[0], "pwd"))
 		return (built_in_pwd());
@@ -32,8 +32,9 @@ int	exec_built_in(char **built_in, t_env **env)
 	else if(!strcmp(built_in[0], "export"))
 		return (built_in_export(built_in, env));
 	else if(!strcmp(built_in[0], "exit"))
-		return (built_in_exit());
+		return (built_in_exit(pipex));
 	else if(!strcmp(built_in[0], "unset"))
 		return (built_in_unset(built_in[1], env));
+	printf("pipex.print_exit3 == %d\n", pipex->print_exit);
 	return (1);
 }

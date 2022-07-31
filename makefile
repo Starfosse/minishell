@@ -15,7 +15,7 @@ all: $(NAME)
 $(NAME) :
 		make -C libft/
 		make bonus -C libft/
-		$(CC) $(CFLAGS) -c $(SRC)
+		$(CC)  $(CFLAGS) -c $(SRC)
 		gcc -o $(NAME) $(OBJ) -lreadline libft/libft.a
 clean:
 		$(RM) $(OBJ) 

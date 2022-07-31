@@ -10,14 +10,24 @@ int	prompt(t_env **env)
 		perror("Malloc failure");
 		return (EXIT_FAILURE);
 	}
-	while ((buffer = readline(("\e[0;35mMini\e[0;33mshell $>\e[0;37m "))) && isatty(0))
+	while ((buffer = readline("\e[0;35mMini\e[0;33mshell $>\e[0;37m ")) && isatty(0))
 	{
 		buffer = ft_check(buffer);
 		add_history(buffer);
 		if(is_pipe(buffer))
-			multiple_cmd(buffer, env);
+		{
+			if (multiple_cmd(buffer, env))
+			{
+				//printf("aïe2\n");
+				break;
+			}
+		}
 		else
-			single_cmd(buffer, env);
+			if(single_cmd(buffer, env))
+			{
+				//printf("aïe1\n");
+				break;
+			}
 	}
 	if (buffer == NULL)
 			printf("exit\n");

@@ -75,7 +75,7 @@ void	name_redir(t_cmd *cmd, t_env **env)
 		else
 			tmp->type[i] = ft_strdup("other");
 	}
-	tmp->type[++i] = '\0'; 
+	tmp->type[i] = '\0'; 
 }
 
 int	check_syntax(t_cmd *cmd)
@@ -85,40 +85,19 @@ int	check_syntax(t_cmd *cmd)
 
 	tmp = cmd;
 	i = 0;
-	/*while(tmp->full_cmd[i])
-	{
-		printf("tmp->full_cmd[i] %s\n",tmp->full_cmd[i]);
-		i++;
-	}
-	i = 0;*/
-	int total = 0;
 	while(tmp->full_cmd[i])
 	{
-		printf("tmp->full_cmd[%d] == %s et tmp->type == %s\n", i, tmp->full_cmd[i], tmp->type[i]);
-		printf("tmp->full_cmd[%d + 1] == %s\n", i, tmp->full_cmd[i + 1]);
-		total = ft_strcmp(tmp->type[i], "redir");
-		printf("total == %d\n", total);
-		if(!ft_strcmp(tmp->type[i], "redir") && ft_strcmp(tmp->type[i + 1], "file"))
+		if(!strcmp(tmp->type[i], "redir") && tmp->type[i + 1] && strcmp(tmp->type[i + 1], "file"))
 		{
-			printf("là\n");
-            ft_putstr("No Such file or directory");
+            ft_putstr("No Such file or directory\n");
 			return (0);
 		}
-		if(!ft_strcmp(tmp->type[i], "redir") && !tmp->full_cmd[i + 1])
+		if(!strcmp(tmp->type[i], strdup("redir")) && !tmp->full_cmd[i + 1])
 		{
-			printf("là\n");
-            ft_putstr("syntax error near unexpected token 'newline'");
+            ft_putstr("syntax error near unexpected token 'newline'\n");
 			return (0);
 		}
         i++;
 	}
-	printf("zzzz\n");
-	/*i++;
-	if(!ft_strcmp(tmp->type[i], "redir") && !tmp->full_cmd[i + 1])
-	{
-		printf("là\n");
-        ft_putstr("syntax error near unexpected token 'newline'");
-		return (0);
-	}*/
     return (1);
 }

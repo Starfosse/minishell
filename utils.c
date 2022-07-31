@@ -18,12 +18,10 @@ int	ft_strlen2(char *str)
 
 void	change_str(char *cmd, char *env)
 {
-	printf("cmd avant == %s\n", cmd);
 	int size = ft_strlen(env);
 	free(cmd);
 	cmd = (char *) malloc (sizeof(char) * size + 1);
 	ft_strcpy(cmd, env);
-	printf("cmd aaprès1 == %s\n", cmd);
 }
 
 void	is_dollar(char **cmd, t_env **env)
@@ -46,7 +44,6 @@ void	is_dollar(char **cmd, t_env **env)
 					free(cmd[j]);
 					cmd[j] = (char *) malloc (sizeof(char) * (ft_strlen(envi[i]) + 1));
 					ft_strcpy(cmd[j], envi[i]);
-					printf("cmd[j] == %s\n", cmd[j]);
 					break;
 				}
 			}
